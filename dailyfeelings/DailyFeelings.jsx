@@ -16,6 +16,7 @@ const styles = `
     width: 100vw; height: 100vh;
     display: flex; align-items: center; justify-content: center;
     position: relative;
+    transition: background-color 0.8s ease-in-out;
   }
 
   .splash {
@@ -61,6 +62,29 @@ const styles = `
   .page-title {
     font-family: 'Gaegu', cursive; font-size: clamp(1.6rem, 4vw, 2.2rem);
     font-weight: 700; color: rgba(255,255,255,0.95); text-align: center;
+    transition: color 0.5s ease;
+  }
+  .page-title.dark-text {
+    color: #2d4a22;
+  }
+
+  .support-message {
+    margin-top: 5px; margin-bottom: 5px;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    font-family: 'Gaegu', cursive;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2d4a22;
+    text-align: center;
+    animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-width: 95%;
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
   }
 
   .emotions-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
@@ -83,7 +107,7 @@ const styles = `
 
   .textareas-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
   .textarea-group { display: flex; flex-direction: column; gap: 8px; }
-  .textarea-label { font-family: 'Gaegu', cursive; font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+  .textarea-label { font-family: 'Gaegu', cursive; font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.9); transition: color 0.5s ease; }
 
   .feeling-textarea {
     background: rgba(255,255,255,0.92); border: none; border-radius: 12px; padding: 14px;
@@ -133,14 +157,14 @@ const styles = `
 `;
 
 const EMOTIONS = [
-  { name: "Happy",       emoji: "😊", bg: "#c8e6a0" },
-  { name: "Loved",       emoji: "🥰", bg: "#f7b8c8" },
-  { name: "Confident",   emoji: "😎", bg: "#fde68a" },
-  { name: "Playful",     emoji: "😄", bg: "#fcd34d" },
-  { name: "Embarrassed", emoji: "😳", bg: "#a7f3d0" },
-  { name: "Angry",       emoji: "😠", bg: "#fca5a5" },
-  { name: "Scared",      emoji: "😨", bg: "#c4b5fd" },
-  { name: "Sad",         emoji: "😢", bg: "#bfdbfe" },
+  { name: "Happy",       emoji: "😊", bg: "#c8e6a0", appBg: "#eef8e3", message: "You are doing great! Keep smiling! 😊" },
+  { name: "Loved",       emoji: "🥰", bg: "#f7b8c8", appBg: "#fcedf1", message: "You are safe and loved by everyone! ❤️" },
+  { name: "Confident",   emoji: "😎", bg: "#fde68a", appBg: "#fef8e3", message: "You are very strong and brave! 🌟" },
+  { name: "Playful",     emoji: "😄", bg: "#fcd34d", appBg: "#fdf3cd", message: "It is fun to play and be silly! 🎈" },
+  { name: "Embarrassed", emoji: "😳", bg: "#a7f3d0", appBg: "#eaf9f1", message: "It is okay to make mistakes. You are okay. 🌱" },
+  { name: "Angry",       emoji: "😠", bg: "#fca5a5", appBg: "#feeceb", message: "Take a deep breath. You are safe here. 🌬️" },
+  { name: "Scared",      emoji: "😨", bg: "#c4b5fd", appBg: "#f3f0ff", message: "I am right here with you. You are safe. 🛡️" },
+  { name: "Sad",         emoji: "😢", bg: "#bfdbfe", appBg: "#edf4ff", message: "It is okay to cry. I am here for you. 🫂" },
 ];
 
 const WORDS = ["grateful", "happy", "hopeful", "loved", "calm", "brave", "joyful"];
@@ -215,10 +239,13 @@ export default function DailyFeelings() {
     return () => clearTimeout(timeout);
   }, [charIdx, deleting, wordIdx, screen]);
 
+  const selectedEmotion = EMOTIONS.find(e => e.name === selected);
+  const appBgColor = selectedEmotion ? selectedEmotion.appBg : "transparent";
+
   return (
     <React.Fragment>
       <style>{styles}</style>
-      <div className="app">
+      <div className="app" style={{ backgroundColor: appBgColor }}>
 
         {screen === "splash" && (
           <div className="splash">
@@ -236,7 +263,7 @@ export default function DailyFeelings() {
 
         {screen === "feelings" && (
           <div className="feelings-page">
-            <div className="page-title">How I feel today ?</div>
+            <div className="page-title" style={{ color: selectedEmotion ? "#2d4a22" : "rgba(255,255,255,0.95)" }}>How I feel today ?</div>
             <div className="emotions-row">
               {EMOTIONS.map(e => (
                 <button
@@ -249,13 +276,18 @@ export default function DailyFeelings() {
                 </button>
               ))}
             </div>
+            {selectedEmotion && (
+              <div className="support-message">
+                {selectedEmotion.message}
+              </div>
+            )}
             <div className="textareas-row">
               <div className="textarea-group">
-                <div className="textarea-label">What made me feel that way ?</div>
+                <div className="textarea-label" style={{ color: selectedEmotion ? "#2d4a22" : "rgba(255,255,255,0.9)" }}>What made me feel that way ?</div>
                 <textarea className="feeling-textarea" placeholder="Write here..." value={why} onChange={ev => setWhy(ev.target.value)} />
               </div>
               <div className="textarea-group">
-                <div className="textarea-label">What I wish for myself tomorrow ?</div>
+                <div className="textarea-label" style={{ color: selectedEmotion ? "#2d4a22" : "rgba(255,255,255,0.9)" }}>What I wish for myself tomorrow ?</div>
                 <textarea className="feeling-textarea" placeholder="Write here..." value={wish} onChange={ev => setWish(ev.target.value)} />
               </div>
             </div>

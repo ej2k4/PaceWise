@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import SocialScenarioExplorer from "./pages/SocialScenarioExplorer";
 import SentencePrediction from "./pages/SentencePrediction";
 import AdaptiveLearning from "./pages/AdaptiveLearning";
+import DailyFeelings from "./pages/DailyFeelings";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ParentDashboard from "./pages/ParentDashboard";
@@ -36,24 +37,34 @@ function Navigation() {
   );
 }
 
+function AppContent() {
+  const { emotion } = useContext(AuthContext);
+  const bgColor = emotion ? emotion.appBg : "#f8fafc"; // #f8fafc is slate-50
+
+  return (
+    <div className="min-h-screen flex flex-col items-center transition-colors duration-700" style={{ backgroundColor: bgColor }}>
+      <Navigation />
+      <main className="w-full flex-1 flex flex-col items-center">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/parent-dashboard" element={<ParentDashboard />} />
+          <Route path="/social-scenario-explorer" element={<SocialScenarioExplorer />} />
+          <Route path="/sentence-prediction" element={<SentencePrediction />} />
+          <Route path="/adaptive-learning" element={<AdaptiveLearning />} />
+          <Route path="/daily-feelings" element={<DailyFeelings />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <div className="min-h-screen bg-slate-50 flex flex-col items-center">
-          <Navigation />
-          <main className="w-full flex-1 flex flex-col items-center">
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/parent-dashboard" element={<ParentDashboard />} />
-              <Route path="/social-scenario-explorer" element={<SocialScenarioExplorer />} />
-              <Route path="/sentence-prediction" element={<SentencePrediction />} />
-              <Route path="/adaptive-learning" element={<AdaptiveLearning />} />
-            </Routes>
-          </main>
-        </div>
+        <AppContent />
       </BrowserRouter>
     </AuthProvider>
   );

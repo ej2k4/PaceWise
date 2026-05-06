@@ -23,7 +23,7 @@ function Login() {
       });
       
       login(res.data.student);
-      navigate('/');
+      navigate('/daily-feelings');
     } catch (err) {
       setError(err.response?.data?.detail || 'Login failed. Please try again.');
     } finally {
