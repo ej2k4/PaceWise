@@ -28,5 +28,45 @@
         "input": "home go",
         "prediction": "i want to go to the home",
         "timestamp": "2026-02-24 15:51:45"
+    },
+    {
+        "input": "angry brother toy",
+        "prediction": "i am angry because my brother broke my toy",
+        "suggestions": [
+            "i am angry because my brother broke my toy"
+        ],
+        "timestamp": "2026-05-07 00:17:08"
+    },
+    {
+        "input": "angry brother water",
+        "prediction": "i am angry because my brother broke my water",
+        "suggestions": [
+            "i am angry because my brother broke my water"
+        ],
+        "timestamp": "2026-05-07 00:17:40"
+    },
+    {
+        "input": "angry brother water",
+        "prediction": "i am angry because my brother broke my water",
+        "suggestions": [
+            "i am angry because my brother broke my water"
+        ],
+        "timestamp": "2026-05-07 00:17:49"
+    },
+    {
+        "input": "anrgy brother water",
+        "prediction": "i am angry because my brother broke my water",
+        "suggestions": [
+            "i am angry because my brother broke my water"
+        ],
+        "timestamp": "2026-05-07 00:31:44"
+    },
+    {
+        "input": "angry broke water",
+        "suggestions": [
+            "i am angry because my brother broke my water"
+        ],
+        "selected": null,
+        "timestamp": "2026-05-07 00:44:01"
     }
 ]

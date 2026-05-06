@@ -9,6 +9,8 @@ from io import BytesIO
 from PIL import Image
 import torchvision.transforms as transforms
 import logging
+import sqlite3
+from datetime import date
 
 # --------- BASE CONFIG ---------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -237,6 +239,33 @@ def predict_sentence_api(request: SentenceRequest):
     try:
         base_prediction = sp_predict(request.sentence)
         suggestions = sp_generate_variations(base_prediction)
+        
+        # Log the interaction
+        import json
+        from datetime import datetime
+        log_path = os.path.join(BASE_DIR, "sentence prediction", "interaction_log.json")
+        
+        log_entry = {
+            "input": request.sentence,
+            "suggestions": suggestions,
+            "selected": None,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        
+        try:
+            if os.path.exists(log_path):
+                with open(log_path, "r", encoding="utf-8") as f:
+                    logs = json.load(f)
+            else:
+                logs = []
+                
+            logs.append(log_entry)
+            
+            with open(log_path, "w", encoding="utf-8") as f:
+                json.dump(logs, f, indent=4)
+        except Exception as log_err:
+            logger.error(f"Failed to log interaction: {log_err}")
+
         return {
             "prediction": base_prediction,
             "suggestions": suggestions
@@ -262,6 +291,91 @@ sys.modules.pop("model", None)
 sys.modules.pop("data", None)
 sys.modules.pop("engine", None)
 os.chdir(os.path.join(BASE_DIR, "backend")) # restore
+
+# ==========================================
+# 5. DAILY FEELINGS INTEGRATION
+# ==========================================
+logger.info("Initializing Daily Feelings Database...")
+
+def init_db():
+    db_path = os.path.join(BASE_DIR, "backend", "database.db")
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS feelings (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            child_id TEXT,
+            mood TEXT,
+            reason TEXT,
+            wish TEXT,
+            date TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+try:
+    init_db()
+    logger.info("Daily Feelings Database initialized successfully")
+except Exception as e:
+    logger.error(f"Failed to initialize Daily Feelings Database: {e}")
+
+class FeelingRequest(BaseModel):
+    child_id: str
+    mood: str
+    reason: str
+    wish: str
+
+@app.post("/api/feelings")
+def save_feeling(request: FeelingRequest):
+    today = str(date.today())
+    db_path = os.path.join(BASE_DIR, "backend", "database.db")
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM feelings WHERE child_id=? AND date=?",
+        (request.child_id, today)
+    )
+
+    if cursor.fetchone():
+        conn.close()
+        raise HTTPException(status_code=400, detail="Already submitted today")
+
+    cursor.execute("""
+        INSERT INTO feelings (child_id, mood, reason, wish, date)
+        VALUES (?, ?, ?, ?, ?)
+    """, (request.child_id, request.mood, request.reason, request.wish, today))
+
+    conn.commit()
+    conn.close()
+    return {"message": "Feeling saved successfully"}
+
+@app.get("/api/feelings/{child_id}")
+def get_feelings(child_id: str):
+    db_path = os.path.join(BASE_DIR, "backend", "database.db")
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM feelings WHERE child_id=?",
+        (child_id,)
+    )
+
+    rows = cursor.fetchall()
+    conn.close()
+
+    results = []
+    for row in rows:
+        results.append({
+            "id": row[0],
+            "child_id": row[1],
+            "mood": row[2],
+            "reason": row[3],
+            "wish": row[4],
+            "date": row[5]
+        })
+    return results
 
 @app.get("/")
 def home():
