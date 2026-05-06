@@ -1,0 +1,126 @@
+INFO:     Started server process [13596]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 411, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 69, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\fastapi\applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\applications.py", line 123, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\middleware\cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\middleware\cors.py", line 148, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\middleware\exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\fastapi\routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\fastapi\routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\api\main.py", line 194, in submit_answer
+    next_q = get_random_question(req.module, nd, exclude_ids=seen) or \
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\data\database.py", line 68, in get_random_question
+    cur.execute("""
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+psycopg2.errors.UndefinedFunction: operator does not exist: uuid <> text
+LINE 6:                   AND question_id != ALL(ARRAY['6f4c9eb6-163...
+                                          ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 411, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 69, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\fastapi\applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\applications.py", line 123, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\middleware\cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\middleware\cors.py", line 148, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\middleware\exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\fastapi\routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\fastapi\routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\api\main.py", line 194, in submit_answer
+    next_q = get_random_question(req.module, nd, exclude_ids=seen) or \
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\data\database.py", line 68, in get_random_question
+    cur.execute("""
+  File "C:\Users\admin\Documents\MajorProjectFinalSem\majorProjectSem8\adaptive_learning\venv\lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+psycopg2.errors.UndefinedFunction: operator does not exist: uuid <> text
+LINE 6:                   AND question_id != ALL(ARRAY['7c2a6acd-885...
+                                          ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+

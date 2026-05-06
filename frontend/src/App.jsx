@@ -1,19 +1,61 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import StoryGenerator from "./pages/StoryGenerator";
-import ASDPredictor from "./pages/ASDPredictor";
-import CartoonGenerator from "./pages/CartoonGenerator";
+import React from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import SocialScenarioExplorer from "./pages/SocialScenarioExplorer";
+import SentencePrediction from "./pages/SentencePrediction";
+import AdaptiveLearning from "./pages/AdaptiveLearning";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ParentDashboard from "./pages/ParentDashboard";
+import { AuthProvider, AuthContext } from "./contexts/AuthContext";
+import { useContext } from "react";
+
+function Navigation() {
+  const { user, logout } = useContext(AuthContext);
+  
+  return (
+    <nav className="w-full max-w-5xl px-8 py-6 flex justify-between items-center mb-4">
+      <Link to="/" className="text-2xl font-bold text-slate-700 hover:text-sky-600 transition-colors">
+        🏠 Home
+      </Link>
+      <div className="flex gap-6 items-center">
+        {user ? (
+          <>
+            <span className="font-bold text-slate-600">Hi, {user.name}!</span>
+            <Link to="/parent-dashboard" className="font-bold text-slate-500 hover:text-slate-800">📊 Parent Dashboard</Link>
+            <button onClick={logout} className="font-bold text-red-500 hover:text-red-700">Logout</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="font-bold text-sky-600 hover:text-sky-800">Log In</Link>
+            <Link to="/register" className="bg-sky-100 text-sky-700 px-4 py-2 rounded-xl font-bold hover:bg-sky-200">Register</Link>
+          </>
+        )}
+      </div>
+    </nav>
+  );
+}
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<StoryGenerator />} />
-        <Route path="/asd" element={<ASDPredictor />} />
-        <Route path="/cartoon" element={<CartoonGenerator />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <div className="min-h-screen bg-slate-50 flex flex-col items-center">
+          <Navigation />
+          <main className="w-full flex-1 flex flex-col items-center">
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/parent-dashboard" element={<ParentDashboard />} />
+              <Route path="/social-scenario-explorer" element={<SocialScenarioExplorer />} />
+              <Route path="/sentence-prediction" element={<SentencePrediction />} />
+              <Route path="/adaptive-learning" element={<AdaptiveLearning />} />
+            </Routes>
+          </main>
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
