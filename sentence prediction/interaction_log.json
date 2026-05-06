@@ -68,5 +68,25 @@
         ],
         "selected": null,
         "timestamp": "2026-05-07 00:44:01"
+    },
+    {
+        "input": "school",
+        "suggestions": [
+            "i want to go to the shop",
+            "i want to go to the park",
+            "i want to go to the school"
+        ],
+        "selected": null,
+        "timestamp": "2026-05-07 01:48:54"
+    },
+    {
+        "input": "go shop",
+        "suggestions": [
+            "i want to go to the shop",
+            "i want to go to the park",
+            "i want to go to the school"
+        ],
+        "selected": null,
+        "timestamp": "2026-05-07 01:49:02"
     }
 ]

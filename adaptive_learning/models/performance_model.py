@@ -43,8 +43,8 @@ FEATURE_NAMES = [
 ]
 
 # Difficulty thresholds for recommendation logic
-PROMOTE_THRESHOLD  = 0.65   # lowered for faster demo progression
-DEMOTE_THRESHOLD   = 0.45   # if P(correct) < this AND current difficulty > 1 → go easier
+PROMOTE_THRESHOLD  = 0.55   # lowered for much faster progression based on correct answers
+DEMOTE_THRESHOLD   = 0.40   # if P(correct) < this AND current difficulty > 1 → go easier
 # (Thresholds are gentler than typical because 4–7 yr olds need more reinforcement
 #  before being challenged — standard 0.8/0.4 split is too aggressive at this age)
 
