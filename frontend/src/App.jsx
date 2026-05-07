@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import SocialScenarioExplorer from "./pages/SocialScenarioExplorer";
 import SentencePrediction from "./pages/SentencePrediction";
@@ -37,6 +37,14 @@ function Navigation() {
   );
 }
 
+function ProtectedRoute({ children }) {
+  const { user } = useContext(AuthContext);
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
+
 function AppContent() {
   const { emotion } = useContext(AuthContext);
   const bgColor = emotion ? emotion.appBg : "#f8fafc"; // #f8fafc is slate-50
@@ -46,14 +54,15 @@ function AppContent() {
       <Navigation />
       <main className="w-full flex-1 flex flex-col items-center">
         <Routes>
-          <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/parent-dashboard" element={<ParentDashboard />} />
-          <Route path="/social-scenario-explorer" element={<SocialScenarioExplorer />} />
-          <Route path="/sentence-prediction" element={<SentencePrediction />} />
-          <Route path="/adaptive-learning" element={<AdaptiveLearning />} />
-          <Route path="/daily-feelings" element={<DailyFeelings />} />
+          
+          <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/parent-dashboard" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
+          <Route path="/social-scenario-explorer" element={<ProtectedRoute><SocialScenarioExplorer /></ProtectedRoute>} />
+          <Route path="/sentence-prediction" element={<ProtectedRoute><SentencePrediction /></ProtectedRoute>} />
+          <Route path="/adaptive-learning" element={<ProtectedRoute><AdaptiveLearning /></ProtectedRoute>} />
+          <Route path="/daily-feelings" element={<ProtectedRoute><DailyFeelings /></ProtectedRoute>} />
         </Routes>
       </main>
     </div>
